@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Clientes{% endblock %}
+{% block content %}
+<h1>Lista de Clientes</h1>
+
+<!-- Formulario de búsqueda con botón dentro -->
+<form method="GET" action="/clientes" style="display: flex; align-items: center; margin-bottom: 20px;">
+    <input type="text" name="buscar" placeholder="Buscar cliente por nombre" style="padding: 6px; flex: 1;">
+    <button type="submit" style="padding: 6px 12px; margin-left: 5px;">Buscar</button>
+    <a href="/crear_cliente" style="padding: 6px 12px; margin-left: 5px; background-color:#4CAF50; color:white; text-decoration:none; border-radius:4px;">Agregar Cliente</a>
+</form>
+
+<!-- Tabla de clientes -->
+<table border="1" cellpadding="5" cellspacing="0">
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+    </tr>
+    {% for cliente in clientes %}
+    <tr>
+        <td>{{ cliente.id_cliente }}</td>
+        <td>{{ cliente.nombre }}</td>
+        <td>{{ cliente.email }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

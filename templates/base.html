@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Mi Proyecto{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/acerca">Acerca</a>
+        <a href="/productos">Productos</a>
+        <a href="/inventarios">Inventarios</a>
+        <a href="/clientes">Clientes</a>
+        <a href="/crear_producto">Crear Producto</a>
+    </nav>
+    <hr>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
