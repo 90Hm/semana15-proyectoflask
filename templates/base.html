@@ -6,13 +6,26 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
 </head>
 <body>
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/acerca">Acerca</a>
-        <a href="/productos">Productos</a>
-        <a href="/inventarios">Inventarios</a>
-        <a href="/clientes">Clientes</a>
-        <a href="/crear_producto">Crear Producto</a>
+    <nav style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <a href="/">Inicio</a>
+            <a href="/acerca">Acerca</a>
+            <a href="/productos">Productos</a>
+            <a href="/inventarios">Inventarios</a>
+            {% if current_user.is_authenticated %}
+                <a href="/clientes">Clientes</a>
+                <a href="/crear_producto">Crear Producto</a>
+            {% endif %}
+        </div>
+        <div>
+            {% if current_user.is_authenticated %}
+                <span class="bienvenida">Bienvenido, {{ current_user.nombre }}!</span>
+                <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+            {% else %}
+                <a href="{{ url_for('login_view') }}">Iniciar Sesión</a>
+                <a href="{{ url_for('register') }}">Registrarse</a>
+            {% endif %}
+        </div>
     </nav>
     <hr>
     <div class="container">

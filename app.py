@@ -1,8 +1,76 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from conexion.conexion import get_connection
+from Models.ModelLogin import Usuario, obtener_por_email
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
+app.secret_key = 'supersecretkey'  # Necesario para sesiones y flash
 
+# Configurar Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login_view'  # Nombre de la función de login
+
+# ==================== FLASK-LOGIN: USER LOADER ====================
+@login_manager.user_loader
+def load_user(user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT idusuario, nombre, email, password FROM usuarios WHERE idusuario = %s", (user_id,))
+    fila = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if fila:
+        return Usuario(fila[0], fila[1], fila[2], fila[3])
+    return None
+
+# ==================== RUTAS LOGIN / REGISTRO ====================
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        email = request.form['email']
+        password = generate_password_hash(request.form['password'])
+
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO usuarios (nombre, email, password) VALUES (%s, %s, %s)",
+            (nombre, email, password)
+        )
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        flash('Usuario registrado correctamente')
+        return redirect(url_for('login_view'))
+    return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login_view():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = obtener_por_email(email)
+        if user and user.verificar_password(password):
+            login_user(user)
+            return redirect(url_for('index'))
+        else:
+            flash('Usuario o contraseña incorrectos')
+    return render_template('login.html')
+
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login_view'))
+
+# ==================== RUTAS EXISTENTES ====================
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -20,6 +88,7 @@ def productos():
     cursor.close()
     conn.close()
     return render_template('productos.html', productos=productos)
+
 @app.route('/clientes')
 def clientes():
     buscar = request.args.get('buscar')
@@ -77,7 +146,6 @@ def inventarios():
     conn.close()
     return render_template('inventarios.html', inventarios=inventarios, buscar=buscar)
 
-
 @app.route('/crear_producto', methods=['GET','POST'])
 def crear_producto():
     if request.method == 'POST':
@@ -112,6 +180,6 @@ def crear_producto():
 
     return render_template('crear_producto.html')
 
-
+# ==================== RUN ====================
 if __name__ == '__main__':
     app.run(debug=True)

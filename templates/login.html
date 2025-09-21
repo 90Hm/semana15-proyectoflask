@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Iniciar Sesión{% endblock %}
+{% block content %}
+<h1>Iniciar Sesión</h1>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="mensajes">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+<form method="POST" class="formulario">
+    <div class="campo">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required>
+    </div>
+    <div class="campo">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" placeholder="Tu contraseña" required>
+    </div>
+  <button type="submit" class="btn">Iniciar sesión</button>
+</form>
+<p>¿No tienes cuenta? <a href="{{ url_for('register') }}">Regístrate aquí</a>.</p>
+{% endblock %}

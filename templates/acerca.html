@@ -2,22 +2,25 @@
 {% block title %}Acerca{% endblock %}
 {% block content %}
 <h1>Acerca de este Proyecto</h1>
-<p>Este proyecto es un sistema sencillo para manejar productos, clientes e inventarios usando Flask y MySQL.</p>
+<p>Este proyecto es un sistema web completo para gestionar productos, clientes e inventarios usando Flask y MySQL, con autenticación de usuarios y protección de rutas.</p>
 
-<h2>Qué puedes hacer con este proyecto:</h2>
+<h2>Características principales:</h2>
 <ul>
-    <li>Ver y administrar productos disponibles.</li>
-    <li>Registrar nuevos clientes y consultar los existentes.</li>
-    <li>Llevar control de los inventarios de productos.</li>
-    <li>Agregar productos nuevos desde la web fácilmente.</li>
+    <li>Registro de usuarios y login seguro con contraseña encriptada.</li>
+    <li>Solo los usuarios autenticados pueden ver y acceder a los apartados de "Clientes" y "Crear Producto".</li>
+    <li>Formularios modernos y personalizados para registro e inicio de sesión.</li>
+    <li>Visualización y administración de productos, clientes e inventarios.</li>
+    <li>Interfaz adaptada con HTML y CSS para una mejor experiencia.</li>
+    <li>Mensaje de bienvenida personalizado al iniciar sesión.</li>
+    <li>Redirección automática para evitar que usuarios logueados vean los formularios de login o registro.</li>
 </ul>
 
-<h2>Tecnologías que usé:</h2>
+<h2>Tecnologías utilizadas:</h2>
 <ul>
-    <li>Python con Flask para la parte web.</li>
-    <li>MySQL (XAMPP) para guardar los datos.</li>
-    <li>HTML y CSS para las páginas y el diseño.</li>
+    <li>Python con Flask para el backend y la autenticación.</li>
+    <li>MySQL (XAMPP) para la base de datos.</li>
+    <li>HTML y CSS para la estructura y el diseño visual.</li>
 </ul>
 
-<p>Este proyecto ayuda a practicar la conexión entre Flask y bases de datos, y a construir páginas web que muestran información dinámica.</p>
+<p><strong>Nota:</strong> Para ver los apartados de "Clientes" y "Crear Producto" es necesario registrarse e iniciar sesión. Los usuarios no autenticados solo pueden ver la información general y los productos.</p>
 {% endblock %}
