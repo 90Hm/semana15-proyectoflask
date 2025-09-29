@@ -1,7 +1,16 @@
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from conexion.conexion import get_connection
+import mysql.connector
+
+# Función de conexión local a MySQL (XAMPP)
+def get_connection():
+    return mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='',
+        database='bd_proyecto_flask'  # Cambia si tu base tiene otro nombre
+    )
 
 class Usuario(UserMixin):
     def __init__(self, idusuario, nombre, email, password_hash, rol):

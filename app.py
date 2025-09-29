@@ -1,8 +1,17 @@
 
+import mysql.connector
+
+# Función de conexión local a MySQL (XAMPP)
+def get_connection():
+    return mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='',
+        database='bd_proyecto_flask'  # Cambia si tu base tiene otro nombre
+    )
 from flask import session, flash
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from conexion.conexion import get_connection
 from Models.ModelLogin import Usuario, obtener_por_email
 from werkzeug.security import generate_password_hash
 
@@ -125,12 +134,10 @@ def carrito():
             formato_ids = ','.join(['%s']*len(id_list))
             cursor.execute(f"SELECT * FROM productos WHERE id_producto IN ({formato_ids})", tuple(id_list))
             productos_carrito = cursor.fetchall()
-            # Las claves de cantidades siempre como string
             cantidades = {str(k): carrito[k] for k in carrito if carrito[k] > 0}
         cursor.close()
         conn.close()
     return render_template('carrito.html', productos=productos_carrito, cantidades=cantidades)
-
 @app.route('/comprar_carrito', methods=['POST'])
 def comprar_carrito():
     # Si el usuario no está autenticado, redirigir a login
@@ -148,7 +155,6 @@ def comprar_carrito():
             carrito[key] = carrito.get(key, 0) + 1
     else:
         carrito = dict(carrito_raw)
-    productos_carrito = []
     if carrito:
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
@@ -184,7 +190,6 @@ def comprar_carrito():
     session['carritos'] = carritos
     mensaje = '¡Gracias por tu compra! En breve recibirás un correo electrónico con los detalles y la entrega de tus productos. Si tienes dudas, puedes contactarnos directamente desde la plataforma.'
     return render_template('confirmacion_carrito.html', productos=productos_carrito, mensaje=mensaje)
-
 # ========== PAGO INDIVIDUAL DE PRODUCTO ==========
 @app.route('/pagar_producto/<int:id_producto>', methods=['GET', 'POST'])
 def pagar_producto(id_producto):
@@ -209,7 +214,6 @@ def pagar_producto(id_producto):
         )
         cursor.execute(
             "UPDATE inventarios SET cantidad = cantidad - 1 WHERE id_producto = %s",
-            (id_producto,)
         )
         cursor.execute(
             "UPDATE productos SET cantidad = cantidad - 1 WHERE id_producto = %s",
@@ -225,7 +229,6 @@ def pagar_producto(id_producto):
 # Configurar Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login_view'  # Nombre de la función de login
 
 # ==================== FLASK-LOGIN: USER LOADER ====================
 @login_manager.user_loader
@@ -255,7 +258,6 @@ def register():
             "INSERT INTO usuarios (nombre, email, password, rol) VALUES (%s, %s, %s, %s)",
             (nombre, email, password, rol)
         )
-        conn.commit()
         # Registrar también en clientes si es usuario normal
         if rol == 'usuario':
             cursor.execute(
@@ -295,7 +297,6 @@ def logout():
 
 # ==================== RUTAS EXISTENTES ====================
 from flask_login import login_required
-
 def es_admin():
     return current_user.is_authenticated and getattr(current_user, 'rol', None) == 'admin'
 
