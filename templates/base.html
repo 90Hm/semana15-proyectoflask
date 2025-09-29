@@ -2,24 +2,51 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Mi Proyecto{% endblock %}</title>
+    <title>{% block title %}EcoSnacks - Lago Agrio{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
 </head>
-<body>
-    <nav style="display: flex; justify-content: space-between; align-items: center;">
-        <div>
-            <a href="/">Inicio</a>
-            <a href="/acerca">Acerca</a>
-            <a href="/productos">Productos</a>
-            <a href="/inventarios">Inventarios</a>
-            {% if current_user.is_authenticated %}
-                <a href="/clientes">Clientes</a>
-                <a href="/crear_producto">Crear Producto</a>
+<body style="background-color:#e6f0ff;"> <!-- azul claro -->
+    <nav style="background-color:#388e3c; display: flex; justify-content: space-between; align-items: center;"> <!-- verde -->
+        <div style="display: flex; align-items: center;">
+            <img src="{{ url_for('static', filename='img/logo_ecosnacks.png') }}" alt="EcoSnacks Logo" style="height:40px; margin-right:10px;">
+            <span style="font-size: 1.5em; font-weight: bold; color: #fff; font-style: italic;">EcoSnacks - Lago Agrio</span>
+            <a href="/" style="margin-left: 30px; margin-right: 15px;">Inicio</a>
+            <a href="/acerca" style="margin-right: 15px;">Acerca</a>
+            <a href="/productos" style="margin-right: 15px;">Productos</a>
+            {% if current_user.is_authenticated and current_user.rol == 'admin' %}
+                <a href="/inventarios" style="margin-right: 15px;">Inventarios</a>
+                <a href="/clientes" style="margin-right: 15px;">Clientes</a>
+                <a href="/crear_producto" style="margin-right: 15px;">Crear Producto</a>
+                <a href="/dashboard" style="margin-right: 15px; font-weight:bold; color:#ffc107;">Panel de Control</a>
             {% endif %}
         </div>
         <div>
+            <a href="{{ url_for('carrito') }}" title="Carrito" style="margin-right:10px; font-size:1.3em; vertical-align:middle; position:relative; color:#fff;">
+                🛒
+                {% if current_user.is_authenticated %}
+                    {% set user_id = current_user.id|string %}
+                {% else %}
+                    {% set user_id = 'anonimo' %}
+                {% endif %}
+                {% set carritos = session.get('carritos', {}) %}
+                {% set carrito = carritos[user_id] if carritos and user_id in carritos else {} %}
+                {% if carrito %}
+                    {% if carrito is mapping %}
+                        {% set cantidad_carrito = carrito.values()|sum %}
+                    {% elif carrito is sequence %}
+                        {% set cantidad_carrito = carrito|length %}
+                    {% else %}
+                        {% set cantidad_carrito = 0 %}
+                    {% endif %}
+                    {% if cantidad_carrito > 0 %}
+                        <span style="position:absolute; top:-8px; right:-8px; background:#28a745; color:white; border-radius:50%; padding:2px 6px; font-size:0.8em;">{{ cantidad_carrito }}</span>
+                    {% endif %}
+                {% endif %}
+            </a>
             {% if current_user.is_authenticated %}
-                <span class="bienvenida">Bienvenido, {{ current_user.nombre }}!</span>
+                <span class="bienvenida">
+                    Bienvenido, {{ current_user.nombre }}{% if current_user.rol == 'admin' %}(Admin){% endif %}!
+                </span>
                 <a href="{{ url_for('logout') }}">Cerrar sesión</a>
             {% else %}
                 <a href="{{ url_for('login_view') }}">Iniciar Sesión</a>

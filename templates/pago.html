@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Pagar Compra{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Pagar Compra</h2>
+  {% if producto %}
+    <div class="card mb-3" style="max-width: 400px;">
+      <div class="card-body">
+        <h5 class="card-title">{{ producto.nombre }}</h5>
+        <p class="card-text">{{ producto.descripcion }}</p>
+        <p class="card-text"><strong>Precio:</strong> ${{ producto.precio }}</p>
+        <form method="POST" action="#">
+          <button type="submit" class="btn btn-success btn-sm">Pagar ahora</button>
+        </form>
+      </div>
+    </div>
+  {% else %}
+    <div class="alert alert-warning">No se encontró el producto.</div>
+  {% endif %}
+  <a href="{{ url_for('productos') }}" class="btn btn-primary btn-sm">Volver a productos</a>
+</div>
+{% endblock %}

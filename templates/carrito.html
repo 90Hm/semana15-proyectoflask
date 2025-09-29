@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Carrito de Compras{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Carrito de Compras</h2>
+  {% with mensajes = get_flashed_messages() %}
+    {% if mensajes %}
+      <div class="alert alert-success" role="alert" style="font-size:1.1em;">
+        {{ mensajes[0] }}
+      </div>
+    {% endif %}
+  {% endwith %}
+  {% if productos %}
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>Precio unitario</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+  {% set total = 0.0 %}
+        {% for producto in productos %}
+          {% set cantidad = cantidades[producto.id_producto|string] if (producto.id_producto|string) in cantidades else 1 %}
+          {% set subtotal = cantidad|int * producto.precio|float %}
+          <tr>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.descripcion }}</td>
+            <td>{{ cantidad }}</td>
+            <td>${{ producto.precio }}</td>
+            <td>${{ '%.2f'|format(subtotal|float) }}</td>
+          </tr>
+          {% set total = total + subtotal %}
+        {% endfor %}
+      </tbody>
+    </table>
+    {# Eliminado el total a pagar por solicitud #}
+    <div class="card mb-3 mx-auto" style="max-width: 350px;">
+      <div class="card-body text-center">
+        <form method="POST" action="{{ url_for('comprar_carrito') }}">
+          <button type="submit" class="btn btn-success btn-lg w-100">Pagar todo</button>
+        </form>
+      </div>
+    </div>
+  {% else %}
+  <p>No hay productos en el carrito.</p>
+  {% endif %}
+</div>
+{% endblock %}

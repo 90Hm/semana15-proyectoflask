@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Ventas</title>
+    <style>
+        body {
+            background: #f4f8fb;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        h1 {
+            color: #004080;
+            text-align: center;
+            margin-top: 30px;
+        }
+        table {
+            margin: 30px auto;
+            border-collapse: collapse;
+            width: 80%;
+            background: #fff;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        th {
+            background: #17a2b8;
+            color: #fff;
+            padding: 14px 8px;
+            font-size: 1.1em;
+        }
+        td {
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 1em;
+        }
+        tr:nth-child(even) {
+            background: #e6f0ff;
+        }
+        tr:hover {
+            background: #d1ecf1;
+            transition: background 0.2s;
+        }
+        .paginacion {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .paginacion a {
+            color: #fff;
+            background: #17a2b8;
+            padding: 8px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 8px;
+            transition: background 0.2s;
+        }
+        .paginacion a:hover {
+            background: #138496;
+        }
+        .volver {
+            color: #fff;
+            background: #004080;
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Historial de Ventas</h1>
+    <table>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Fecha</th>
+            <th>ID Usuario</th>
+        </tr>
+        {% for venta in ventas %}
+        <tr>
+            <td>{{ venta[0] }}</td>
+            <td>{{ venta[1] }}</td>
+            <td>{{ venta[2] }}</td>
+            <td>{{ venta[3] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="paginacion">
+        {% if page > 1 %}
+            <a href="{{ url_for('historial_ventas', page=page-1) }}">Anterior</a>
+        {% endif %}
+        <span style="margin:0 12px; color:#004080; font-weight:bold;">Página {{ page }} de {{ total_pages }}</span>
+        {% if page < total_pages %}
+            <a href="{{ url_for('historial_ventas', page=page+1) }}">Siguiente</a>
+        {% endif %}
+    </div>
+    <div style="text-align:center;">
+        <a href="{{ url_for('dashboard') }}" class="volver">Volver al panel</a>
+    </div>
+</body>
+</html>

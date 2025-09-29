@@ -1,26 +1,31 @@
 {% extends "base.html" %}
 {% block title %}Acerca{% endblock %}
 {% block content %}
-<h1>Acerca de este Proyecto</h1>
-<p>Este proyecto es un sistema web completo para gestionar productos, clientes e inventarios usando Flask y MySQL, con autenticación de usuarios y protección de rutas.</p>
+<div style="position:relative; min-height:350px; text-align:center;">
+    <img src="{{ url_for('static', filename='img/logo_fondo.png') }}" alt="Logo EcoSnacks" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:80vw; max-width:900px; min-width:350px; height:auto; filter:blur(4px) brightness(1.1); opacity:0.32; z-index:0; pointer-events:none;">
+    <div style="position:relative; z-index:1; display:inline-block; text-align:left; max-width:900px; width:90vw; border-radius:18px; padding:32px; margin-top:24px;">
+    <h1 class="fade-in" style="text-align:center; color:#388e3c;">Acerca de EcoSnacks Lago Agrio: Tu Snack Consciente</h1>
+        <h2 class="fade-in" style="text-align:center; animation-delay:0.2s;">Nuestra Misión</h2>
+        <p class="fade-in" style="text-align:center; animation-delay:0.4s;">EcoSnacks Lago Agrio nació para ofrecer alimentos saludables, nutritivos y sostenibles en nuestra ciudad, aprovechando la biodiversidad única de la Amazonía ecuatoriana. Somos un puente entre la naturaleza y tu bienestar, brindando snacks y bebidas de la más alta calidad y promoviendo un estilo de vida consciente sin sacrificar el sabor.</p>
 
-<h2>Características principales:</h2>
-<ul>
-    <li>Registro de usuarios y login seguro con contraseña encriptada.</li>
-    <li>Solo los usuarios autenticados pueden ver y acceder a los apartados de "Clientes" y "Crear Producto".</li>
-    <li>Formularios modernos y personalizados para registro e inicio de sesión.</li>
-    <li>Visualización y administración de productos, clientes e inventarios.</li>
-    <li>Interfaz adaptada con HTML y CSS para una mejor experiencia.</li>
-    <li>Mensaje de bienvenida personalizado al iniciar sesión.</li>
-    <li>Redirección automática para evitar que usuarios logueados vean los formularios de login o registro.</li>
-</ul>
+        <h2 class="fade-in" style="text-align:center; animation-delay:0.6s;">Nuestros Valores Fundamentales</h2>
+        <ul class="fade-in" style="text-align:left; margin:0 auto; display:inline-block; animation-delay:0.8s;">
+            <li><strong>Salud y Nutrición:</strong> Ingredientes reales, frescos y orgánicos, sin aditivos ni azúcares procesados.</li>
+            <li><strong>Sostenibilidad Amazónica:</strong> Consumo responsable y uso respetuoso de los recursos naturales de la región.</li>
+            <li><strong>Impacto Social Local:</strong> Apoyo directo a pequeños agricultores y productores orgánicos de Lago Agrio, con comercio justo y desarrollo comunitario.</li>
+        </ul>
 
-<h2>Tecnologías utilizadas:</h2>
-<ul>
-    <li>Python con Flask para el backend y la autenticación.</li>
-    <li>MySQL (XAMPP) para la base de datos.</li>
-    <li>HTML y CSS para la estructura y el diseño visual.</li>
-</ul>
+        <h2 class="fade-in" style="text-align:center; animation-delay:1s;">¿Qué Encontrarás en Nuestra Tienda Virtual?</h2>
+        <p class="fade-in" style="text-align:center; animation-delay:1.2s;">Acceso fácil y rápido a productos funcionales y deliciosos para mejorar tus hábitos alimenticios:</p>
+        <ul class="fade-in" style="text-align:left; margin:0 auto; display:inline-block; animation-delay:1.4s;">
+            <li><strong>Barras Energéticas:</strong> Súper-semillas amazónicas como sacha inchi para energía limpia.</li>
+            <li><strong>Guayusa y Bebidas Funcionales:</strong> Café de la selva y bebidas naturales a base de Camu Camu y frutas amazónicas.</li>
+            <li><strong>Mix de Frutas Deshidratadas:</strong> Frutas de la región, perfectas como topping o snack rápido.</li>
+            <li><strong>Semillas y Súper-alimentos a Granel:</strong> Chía, linaza y sacha inchi tostado para batidos, yogures o ensaladas.</li>
+            <li><strong>Granolas y Cereales Artesanales:</strong> Mezclas con frutos secos locales y endulzantes naturales para desayunos nutritivos.</li>
+        </ul>
 
-<p><strong>Nota:</strong> Para ver los apartados de "Clientes" y "Crear Producto" es necesario registrarse e iniciar sesión. Los usuarios no autenticados solo pueden ver la información general y los productos.</p>
+        <p class="fade-in" style="text-align:center; animation-delay:1.6s;">EcoSnacks Lago Agrio es donde la tradición amazónica se encuentra con la vida moderna y saludable. ¡Descubre la energía de lo natural!</p>
+    </div>
+</div>
 {% endblock %}

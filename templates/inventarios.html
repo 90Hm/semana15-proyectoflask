@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 {% block title %}Inventarios{% endblock %}
 {% block content %}
-
-<h1>Inventarios</h1>
-
+<h1 style="color:#111;">Inventarios</h1>
+<!-- Removed duplicate titles -->
 <!-- Formulario de búsqueda -->
 <form method="GET" action="/inventarios">
-    <input type="text" name="buscar" placeholder="Buscar producto..." value="{{ buscar|default('') }}">
+    <input type="text" name="buscar" placeholder="Buscar producto..." value="{{ buscar if buscar is not none else '' }}">
     <button type="submit">Buscar</button>
 </form>
 <br>

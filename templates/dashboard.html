@@ -4,9 +4,36 @@
     <meta charset="UTF-8">
     <title>Dashboard</title>
 </head>
-<body>
-    <h1>Bienvenido, {{ current_user.nombre }}</h1>
-    <p>Esta es tu página protegida.</p>
-    <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+<body style="background-color:#e6f0ff;">
+    <h1 style="color:#111; background-color:#fff; padding:12px 0; border-radius:10px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Panel de Control Administrador</h1>
+    <p style="color:#388e3c; font-weight:bold; text-align:center;">Bienvenido, {{ current_user.nombre }} (Admin)</p>
+    <hr>
+    <div style="display:flex; gap:30px; justify-content:center; margin-top:40px; flex-wrap:wrap;">
+        <div style="background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.10); padding:30px 40px; min-width:220px; text-align:center; border:2px solid #004080;">
+            <h2 style="color:#004080; margin-bottom:10px;">Productos Vendidos</h2>
+            <div style="font-size:2.5em; font-weight:bold; color:#388e3c;">{{ productos_vendidos }}</div>
+            <div style="margin-top:10px; color:#555;">Cantidad total vendida</div>
+        </div>
+        <div style="background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.10); padding:30px 40px; min-width:220px; text-align:center; border:2px solid #388e3c;">
+            <h2 style="color:#388e3c; margin-bottom:10px;">Ganancias</h2>
+            <div style="font-size:2.5em; font-weight:bold; color:#388e3c;">${{ '%.2f'|format(ganancias) }}</div>
+            <div style="margin-top:10px; color:#555;">Total recaudado por ventas</div>
+        </div>
+        <div style="background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.10); padding:30px 40px; min-width:220px; text-align:center; border:2px solid #1976d2;">
+            <h2 style="color:#1976d2; margin-bottom:10px;">Historial de Ventas</h2>
+            <a href="{{ url_for('historial_ventas', page=1) }}" style="display:inline-block; margin-top:12px; color:#fff; background:#1976d2; padding:8px 18px; border-radius:6px; text-decoration:none; font-weight:bold;">Ver historial completo</a>
+        </div>
+        <div style="background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.10); padding:30px 40px; min-width:220px; text-align:center; border:2px solid #ffc107;">
+            <h2 style="color:#ffc107; margin-bottom:10px;">Usuarios Registrados</h2>
+            <div style="font-size:2.5em; font-weight:bold; color:#ffc107;">{{ total_usuarios }}</div>
+            <div style="margin-top:10px; color:#555;">Usuarios en el sistema</div>
+        </div>
+    </div>
+    <div style="margin-top:40px; text-align:center;">
+        <span style="font-size:1.2em; color:#388e3c; background:#fff; padding:8px 18px; border-radius:8px; border:1px solid #388e3c;">Inventario total: <strong>{{ total_inventario }}</strong></span>
+    </div>
+    <div style="margin-top:30px; text-align:center;">
+    <a href="{{ url_for('logout') }}" style="color:#fff; background:#388e3c; padding:10px 24px; border-radius:6px; text-decoration:none; font-weight:bold;">Cerrar sesión</a>
+    </div>
 </body>
 </html>

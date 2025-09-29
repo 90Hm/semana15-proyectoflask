@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Compra realizada{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7">
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-success text-white text-center">
+          <h3 class="mb-0">¡Compra realizada con éxito!</h3>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-success text-center fade-in" style="font-size:1.1em; animation-delay:0.2s;">
+            {{ mensaje }}
+          </div>
+          {% if producto %}
+            <div class="card mb-3 mx-auto fade-in" style="max-width: 400px; animation-delay:0.35s;">
+              <div class="card-body">
+                <h5 class="card-title text-primary">{{ producto.nombre }}</h5>
+                <p class="card-text">{{ producto.descripcion }}</p>
+                <p class="card-text"><strong>Precio:</strong> ${{ producto.precio }}</p>
+              </div>
+            </div>
+          {% endif %}
+          <div class="text-center mt-3 fade-in" style="animation-delay:0.5s;">
+            <a href="{{ url_for('productos') }}" class="btn btn-outline-primary">Volver a productos</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

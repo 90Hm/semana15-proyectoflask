@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Productos{% endblock %}
 {% block content %}
-<h1>Lista de Productos</h1>
+<h1 style="color:#111;">Lista de Productos</h1>
 
 <table border="1" cellpadding="5" cellspacing="0">
     <tr>
@@ -9,6 +9,7 @@
         <th>Nombre</th>
         <th>Descripción</th>
         <th>Precio</th>
+    <th>Unidades</th>
     </tr>
     {% for producto in productos %}
     <tr>
@@ -16,7 +17,45 @@
         <td>{{ producto.nombre }}</td>
         <td>{{ producto.descripcion }}</td>
         <td>{{ producto.precio }}</td>
+        <td>{{ producto.cantidad }}</td>
+        <td style="text-align:center;">
+            {% if current_user.is_authenticated and current_user.rol == 'admin' %}
+                <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top:4px;">
+                    <a href="{{ url_for('editar_producto', id_producto=producto.id_producto) }}" class="btn btn-warning btn-sm" title="Editar">
+                        <span style="font-size:1.2em;" aria-hidden="true">✏️</span>
+                    </a>
+                    <form action="{{ url_for('eliminar_producto', id_producto=producto.id_producto) }}" method="POST" style="display:inline; margin:0;">
+                        <button type="submit" class="btn btn-danger btn-sm" title="Eliminar" onclick="return confirm('¿Seguro que deseas eliminar este producto?');">
+                            <span style="font-size:1.2em; line-height:1;" aria-hidden="true">🗑️</span>
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <div style="display: flex; flex-direction: row; align-items: center; gap: 8px;">
+                    <form action="{{ url_for('agregar_carrito', id_producto=producto.id_producto) }}" method="POST" style="margin:0;">
+                        <button type="submit" class="btn btn-success" title="Añadir al carrito" style="font-size:1em; padding:8px 18px; margin-right:6px;">
+                            <span style="font-size:0.7em;" aria-hidden="true">🛒</span> Carrito
+                        </button>
+                    </form>
+                    <form action="{{ url_for('pagar_producto', id_producto=producto.id_producto) }}" method="GET" style="margin:0;">
+                        <button type="submit" class="btn btn-primary" title="Comprar ahora" style="font-size:1em; padding:8px 18px;">
+                            <span style="font-size:0.7em;" aria-hidden="true">💳</span> Comprar
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+        </td>
     </tr>
     {% endfor %}
 </table>
+
+<div style="margin-top:30px; text-align:center;">
+    {% if page > 1 %}
+        <a href="{{ url_for('productos', page=page-1) }}" class="btn btn-primary" style="margin-right:10px;">Anterior</a>
+    {% endif %}
+    <span style="font-weight:bold; color:#111; margin:0 12px;">Página {{ page }} de {{ total_pages }}</span>
+    {% if page < total_pages %}
+        <a href="{{ url_for('productos', page=page+1) }}" class="btn btn-primary" style="margin-left:10px;">Siguiente</a>
+    {% endif %}
+</div>
 {% endblock %}

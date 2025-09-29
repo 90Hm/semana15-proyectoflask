@@ -1,7 +1,26 @@
 {% extends "base.html" %}
-{% block title %}Inicio{% endblock %}
+{% block title %}EcoSnacks - Lago Agrio{% endblock %}
 {% block content %}
-<h1>Bienvenido al Sistema de Gestión de Productos</h1>
-<p>Esta aplicación permite gestionar productos, clientes e inventarios de manera sencilla y conectada a MySQL.</p>
-
+<div style="position:relative; text-align:center; margin-top:40px; min-height:350px;">
+    <img src="{{ url_for('static', filename='img/logo_fondo.png') }}" alt="Logo EcoSnacks" style="position:absolute; left:50%; top:80%; transform:translate(-50%,-50%); width:80vw; max-width:900px; min-width:350px; height:auto; filter:blur(4px) brightness(1.1); opacity:0.32; z-index:0; pointer-events:none;">
+    <div style="position:relative; z-index:1;">
+    <h1 style="color:#388e3c;">Bienvenido a EcoSnacks</h1>
+    <h3 style="color:#388e3c;">Tu tienda virtual de snacks saludables en Lago Agrio</h3>
+    <p class="fade-in">Descubre nuestros productos ecológicos, agrega tus favoritos al carrito y realiza tu compra de manera fácil y segura.</p>
+    <p class="fade-in" style="animation-delay:0.5s;">¡Apoya el emprendimiento local y disfruta de snacks deliciosos!</p>
+        <a href="{{ url_for('productos') }}" class="btn-minimal fade-in" style="margin-top:22px; animation-delay:0.8s; display:inline-block;">
+            <i class="fas fa-shopping-bag" style="margin-right:8px;"></i> Ver productos
+        </a>
+        <div style="margin-top:32px; display:flex; justify-content:center; gap:32px; flex-wrap:wrap;">
+            <img src="{{ url_for('static', filename='img/producto1.jpg') }}" alt="Producto 1" class="fade-in" style="width:160px; height:160px; object-fit:cover; border-radius:18px; box-shadow:0 2px 12px rgba(0,0,0,0.10); animation-delay:1.1s;">
+            <img src="{{ url_for('static', filename='img/producto2.jpg') }}" alt="Producto 2" class="fade-in" style="width:160px; height:160px; object-fit:cover; border-radius:18px; box-shadow:0 2px 12px rgba(0,0,0,0.10); animation-delay:1.3s;">
+            <img src="{{ url_for('static', filename='img/producto3.jpg') }}" alt="Producto 3" class="fade-in" style="width:160px; height:160px; object-fit:cover; border-radius:18px; box-shadow:0 2px 12px rgba(0,0,0,0.10); animation-delay:1.5s;">
+        </div>
+        <div class="fade-in" style="margin-top:28px; animation-delay:1.7s; text-align:center; font-size:1.08em; color:#111;">
+            <a href="https://www.instagram.com/fundacion_inspire?igsh=cDh2MzA5aGJ0a3cx&utm_source=qr" target="_blank" style="text-decoration:none; color:#111; font-weight:500;">
+                Todo lo recaudado en nuestras ventas será destinado a la Fundación Inspire <span style="font-size:1.2em; vertical-align:middle;">💚</span>
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}
