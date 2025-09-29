@@ -37,12 +37,16 @@
         {% endfor %}
       </tbody>
     </table>
-    {# Eliminado el total a pagar por solicitud #}
     <div class="card mb-3 mx-auto" style="max-width: 350px;">
       <div class="card-body text-center">
-        <form method="POST" action="{{ url_for('comprar_carrito') }}">
-          <button type="submit" class="btn btn-success btn-lg w-100">Pagar todo</button>
-        </form>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+          <form method="POST" action="{{ url_for('comprar_carrito') }}" style="flex:1;">
+            <button type="submit" class="btn btn-success btn-lg w-100">Pagar todo</button>
+          </form>
+          <form action="{{ url_for('vaciar_carrito') }}" method="post" style="flex:1;">
+            <button type="submit" class="btn btn-danger btn-lg w-100" style="background-color:#dc3545; border-color:#dc3545; color:white;">Vaciar carrito</button>
+          </form>
+        </div>
       </div>
     </div>
   {% else %}

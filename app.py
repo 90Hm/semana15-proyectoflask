@@ -1,4 +1,7 @@
 
+# ...existing code...
+
+
 import mysql.connector
 
 # Función de conexión local a MySQL (XAMPP)
@@ -16,8 +19,22 @@ from Models.ModelLogin import Usuario, obtener_por_email
 from werkzeug.security import generate_password_hash
 
 
+
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Necesario para sesiones y flash
+
+# ========== VACIAR CARRITO ==========
+@app.route('/vaciar_carrito', methods=['POST'])
+def vaciar_carrito():
+    user_id = str(current_user.id) if current_user.is_authenticated else 'anonimo'
+    carritos = session.get('carritos', {})
+    if not isinstance(carritos, dict):
+        carritos = {}
+    carritos[user_id] = {}
+    session['carritos'] = carritos
+    session.modified = True
+    flash('Carrito vaciado correctamente')
+    return redirect(url_for('carrito'))
 
 # ========== HISTORIAL DE VENTAS PAGINADO ==========
 @app.route('/historial_ventas')
